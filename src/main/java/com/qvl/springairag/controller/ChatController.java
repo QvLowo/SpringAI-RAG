@@ -8,6 +8,7 @@ import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.VectorStore;
+
 import org.springframework.http.MediaType;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +48,7 @@ public class ChatController {
     public Flux<String> fluxChat(@RequestParam String chatId, @RequestParam String prompt) {
         return this.chatClient.prompt(prompt)
                 .tools(new DateTool())
+
                 // 讓ai有記憶
                 .advisors(advisor -> advisor.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
