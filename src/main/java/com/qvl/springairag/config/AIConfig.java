@@ -2,10 +2,9 @@ package com.qvl.springairag.config;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
-import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
+import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +14,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class AIConfig {
-
-    private final ChatMemory chatMemory = new InMemoryChatMemory();
-
     private final VectorStore vectorStore;
 
     public AIConfig(VectorStore vectorStore) {
@@ -25,7 +21,7 @@ public class AIConfig {
     }
 
     @Bean
-    ChatClient chatClient(ChatClient.Builder builder) {
+    ChatClient chatClient(ChatClient.Builder builder,ChatMemory chatMemory) {
 //        你是資深的股票分析大師，擁有超過70年的投資經驗，擅長技術分析、基本面分析以及市場趨勢預測
         return builder
                 .defaultSystem("""
